@@ -68,28 +68,6 @@ void	move_forward_backward(int keycode, t_env *e)
 	}
 }
 
-void	move_lateral(int keycode, t_env *e)
-{
-	if (keycode == 2)
-	{
-		if (e->map[(int)(e->player.pos.x + e->player.dir.y *
-			e->player.speed_move)][(int)(e->player.pos.y)] == 0)
-			e->player.pos.x += e->player.dir.y * e->player.speed_move;
-		if (e->map[(int)(e->player.pos.x)][(int)(e->player.pos.y -
-		e->player.dir.x * e->player.speed_move)] == 0)
-			e->player.pos.y -= e->player.dir.x * e->player.speed_move;
-	}
-	if (keycode == 0)
-	{
-		if (e->map[(int)(e->player.pos.x - e->player.dir.y *
-			e->player.speed_move)][(int)(e->player.pos.y)] == 0)
-			e->player.pos.x -= e->player.dir.y * e->player.speed_move;
-		if (e->map[(int)(e->player.pos.x)][(int)(e->player.pos.y +
-		e->player.dir.x * e->player.speed_move)] == 0)
-			e->player.pos.y += e->player.dir.x * e->player.speed_move;
-	}
-}
-
 void	key_move(int keycode, t_env *e)
 {
 	move_forward_backward(keycode, e);
