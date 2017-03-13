@@ -6,15 +6,23 @@
 /*   By: efichot <efichot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 15:04:24 by efichot           #+#    #+#             */
-/*   Updated: 2017/01/19 16:50:49 by efichot          ###   ########.fr       */
+/*   Updated: 2017/01/20 15:20:33 by efichot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/wolf3d.h"
 
-int		error_map(void)
+int		ft_free(t_env *e)
+{
+	if (e)
+		free(e);
+	return (1);
+}
+
+int		error_map(t_env *e)
 {
 	ft_putstr_fd("Error map.\n", 2);
+	ft_free(e);
 	exit(0);
 	return (0);
 }
@@ -28,7 +36,7 @@ int		arg_open(int ac, char **av, t_env *e)
 	}
 	if (!(open_file(e, av[1])))
 	{
-		error_map();
+		error_map(e);
 		return (0);
 	}
 	return (1);
@@ -37,7 +45,7 @@ int		arg_open(int ac, char **av, t_env *e)
 int		close_win(t_env *e)
 {
 	mlx_destroy_window(e->mlx.mlx, e->mlx.win);
-	free(e);
+	ft_free(e);
 	exit(1);
 	return (1);
 }
@@ -48,12 +56,15 @@ int		main(int ac, char **av)
 
 	if (!(e = (t_env *)ft_memalloc(sizeof(t_env))) || !(init_env(e)))
 	{
-		free(e);
+		ft_free(e);
 		exit(0);
 		return (0);
 	}
 	if (!(arg_open(ac, av, e)))
+	{
+		free(e);
 		return (0);
+	}
 	init_mlx(e);
 	e->mlx.win = mlx_new_window(e->mlx.mlx, e->width, e->height,
 		"Wolf3d efichot@42");

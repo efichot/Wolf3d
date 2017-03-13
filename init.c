@@ -6,7 +6,7 @@
 /*   By: efichot <efichot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 15:32:12 by efichot           #+#    #+#             */
-/*   Updated: 2017/01/19 13:02:28 by efichot          ###   ########.fr       */
+/*   Updated: 2017/03/13 13:45:00 by efichot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	init_player(t_env *e)
 	e->player.z = 0;
 	e->player.plane.x = 0;
 	e->player.plane.y = 0.66;
-	e->player.speed_move = 0.15;
+	e->player.speed_move = 0.10;
 	e->player.speed_turn = 0.10;
 	e->player.jump = 0;
+	e->player.sprint = 0;
 }
 
 void	init_mlx(t_env *e)
@@ -42,11 +43,11 @@ int		init_env(t_env *e)
 	e->height = HEIGHT;
 	init_player(e);
 	init_mlx(e);
-	e->color1 = 0x3e9349;
-	e->color2 = 0x149049;
-	e->color3 = 0x0f4f25;
-	e->color4 = 0x10693b;
-	e->color_sky = 0x4f98e3;
-	e->color_ground = 0x4e310b;
+	e->color1 = COLOR1;
+	e->color2 = COLOR2;
+	e->color3 = COLOR3;
+	e->color4 = COLOR4;
+	e->color_sky = COLORSK;
+	e->color_ground = COLORGR;
 	return (1);
 }

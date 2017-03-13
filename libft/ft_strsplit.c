@@ -6,67 +6,76 @@
 /*   By: efichot <efichot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 17:20:09 by efichot           #+#    #+#             */
-/*   Updated: 2016/12/01 16:23:36 by efichot          ###   ########.fr       */
+/*   Updated: 2017/01/19 23:32:30 by efichot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	**ft_create_tab(const char *s, char c,
-	int nb_word, int max_len_word)
+static const char	*ft_str_find_next(const char *str, char c, int skip)
 {
-	char	**tab;
-	int		i;
-	int		j;
-	int		k;
-
-	if (!(tab = (char **)malloc(sizeof(*tab) * nb_word + 1)))
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		k = 0;
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
-		{
-			if (!(tab[j] = (char *)malloc(sizeof(**tab) * max_len_word + 1)))
-				return (NULL);
-			while (s[i] != c && s[i])
-				tab[j][k++] = s[i++];
-			tab[j++][k] = '\0';
-		}
-	}
-	tab[j] = 0;
-	return (tab);
+	if (skip)
+		while (*str != '\0' && *str == c)
+			str++;
+	else
+		while (*str != '\0' && *str != c)
+			str++;
+	return (str);
 }
 
-char		**ft_strsplit(const char *s, char c)
+static int			ft_str_count_splits(const char *str, char seps)
 {
-	int		i;
-	int		nb_word;
-	int		len_word;
-	int		max_len_word;
+	int i;
 
-	if (!s || !c)
-		return (NULL);
 	i = 0;
-	nb_word = 0;
-	max_len_word = 0;
-	while (s[i])
+	while (*str != '\0')
 	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
+		str = ft_str_find_next(str, seps, 1);
+		if (*str != '\0')
 		{
-			nb_word++;
-			len_word = 0;
-			while (s[i] != c && s[i++])
-				len_word++;
-			if (len_word > max_len_word)
-				max_len_word = len_word;
+			i++;
+			str = ft_str_find_next(str, seps, 0);
 		}
 	}
-	return (ft_create_tab(s, c, nb_word, max_len_word));
+	return (i);
+}
+
+static char			**ft_tabledel(char **ret, int len)
+{
+	int i;
+
+	i = -1;
+	while (++i < len)
+		free(ret[i]);
+	free(ret);
+	return (NULL);
+}
+
+char				**ft_strsplit(char const *str, char c)
+{
+	char		**ret;
+	int			i;
+	const char	*next;
+
+	if (str == NULL)
+		return (NULL);
+	ret = (char**)malloc(sizeof(char*) * (ft_str_count_splits(str, c) + 1));
+	if (ret == NULL)
+		return (NULL);
+	i = 0;
+	while (*str != '\0')
+	{
+		str = ft_str_find_next(str, c, 1);
+		if (*str != '\0')
+		{
+			next = ft_str_find_next(str, c, 0);
+			ret[i] = ft_strsub(str, 0, next - str);
+			if (ret[i] == NULL)
+				return (ft_tabledel(ret, i));
+			i++;
+			str = next;
+		}
+	}
+	ret[i] = 0;
+	return (ret);
 }

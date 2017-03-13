@@ -6,7 +6,7 @@
 /*   By: efichot <efichot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 15:43:11 by efichot           #+#    #+#             */
-/*   Updated: 2017/01/19 17:40:36 by efichot          ###   ########.fr       */
+/*   Updated: 2017/03/13 13:46:23 by efichot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,28 @@ void	move_forward_backward(int keycode, t_env *e)
 	}
 }
 
+void	move_lateral(int keycode, t_env *e)
+{
+	if (keycode == 2)
+	{
+		if (e->map[(int)(e->player.pos.x + e->player.dir.y *
+			e->player.speed_move)][(int)(e->player.pos.y)] == 0)
+			e->player.pos.x += e->player.dir.y * e->player.speed_move;
+		if (e->map[(int)(e->player.pos.x)][(int)(e->player.pos.y -
+		e->player.dir.x * e->player.speed_move)] == 0)
+			e->player.pos.y -= e->player.dir.x * e->player.speed_move;
+	}
+	if (keycode == 0)
+	{
+		if (e->map[(int)(e->player.pos.x - e->player.dir.y *
+			e->player.speed_move)][(int)(e->player.pos.y)] == 0)
+			e->player.pos.x -= e->player.dir.y * e->player.speed_move;
+		if (e->map[(int)(e->player.pos.x)][(int)(e->player.pos.y +
+		e->player.dir.x * e->player.speed_move)] == 0)
+			e->player.pos.y += e->player.dir.x * e->player.speed_move;
+	}
+}
+
 void	key_move(int keycode, t_env *e)
 {
 	move_forward_backward(keycode, e);
@@ -78,6 +100,8 @@ void	key_move(int keycode, t_env *e)
 		move_right(e);
 	if (keycode == 49)
 		e->player.jump = !e->player.jump;
+	if (keycode == 257)
+		e->player.sprint = !e->player.sprint;
 	if (keycode == 53)
 	{
 		mlx_destroy_window(e->mlx.mlx, e->mlx.win);
