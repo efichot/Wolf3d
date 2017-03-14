@@ -65,7 +65,6 @@ int		main(int ac, char **av)
 		free(e);
 		return (0);
 	}
-	init_mlx(e);
 	e->mlx.win = mlx_new_window(e->mlx.mlx, e->width, e->height,
 		"Wolf3d efichot@42");
 	mlx_loop_hook(e->mlx.mlx, loop_hook, e);
