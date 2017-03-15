@@ -6,7 +6,7 @@
 /*   By: efichot <efichot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 16:40:08 by efichot           #+#    #+#             */
-/*   Updated: 2017/03/13 15:42:52 by efichot          ###   ########.fr       */
+/*   Updated: 2017/03/14 18:34:04 by efichot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		read_file(int fd, t_env *e)
 	{
 		if (!(read_line(&line, ++y, e)))
 			return (0);
+		ft_strdel(&line);
 	}
 	if (e->map[(int)e->player.pos.y][(int)e->player.pos.x] != 0 ||
 	!check_border(e))
@@ -111,8 +112,8 @@ int		open_file(t_env *e, char *file)
 {
 	int		fd;
 
-	if (open(file, O_DIRECTORY) >= 0)
-		return (0);
+	/*if (open(file, O_DIRECTORY) >= 0)
+		return (0);*/
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (0);
 	return (read_file(fd, e));
