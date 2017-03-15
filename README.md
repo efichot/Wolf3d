@@ -5,6 +5,6 @@
 
 # Screenshots
 
-![screen1](http://hpics.li/4deba85)
+![screen1](http://img4.hostingpics.net/pics/983614image1.png)
 
 ![screen2](https://www.noelshack.com/2017-11-1489574444-image2.png)
