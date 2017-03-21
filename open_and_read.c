@@ -112,8 +112,8 @@ int		open_file(t_env *e, char *file)
 {
 	int		fd;
 
-	/*if (open(file, O_DIRECTORY) >= 0)
-		return (0);*/
+	if (open(file, O_DIRECTORY) >= 0)
+		return (0);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (0);
 	return (read_file(fd, e));
