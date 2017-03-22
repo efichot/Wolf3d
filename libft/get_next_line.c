@@ -18,13 +18,13 @@ int		buffer_to_stock(int fd, char **stock, int	*bytes_read)
 	char	*tmp;
 
 	buffer = (char*)malloc(sizeof(char) * BUFF_SIZE + 1);
-	if(buffer == NULL)
+	if (buffer == NULL)
 		return (0);
 	*bytes_read = read(fd, buffer, BUFF_SIZE);
 	if (*bytes_read == -1)
 	{
 		free(buffer);
-		return(0);
+		return (0);
 	}
 	buffer[*bytes_read] = '\0';
 	tmp = ft_strjoin(*stock, buffer);
@@ -34,7 +34,7 @@ int		buffer_to_stock(int fd, char **stock, int	*bytes_read)
 	return (1);
 }
 
-void	cut_stock(char **stock, char *str)
+void		cut_stock(char **stock, char *str)
 {
 	char		*tmp;
 	tmp = ft_strdup(str + 1);
@@ -60,25 +60,25 @@ int		error_handling(char **stock)
 	return (-1);
 }
 
-int			get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
 	static char		*stock = NULL;
-	char	*str;
-	int		bytes_read;
+	char			*str;
+	int			bytes_read;
 
 	if (fd < 0 || !(line) || BUFF_SIZE < 0)
 		return (-1);
 	if (!(stock))
 		stock = ft_strnew(0);
-	while(!(ft_strchr(stock, '\n')))
+	while (!(ft_strchr(stock, '\n')))
 	{
 		if (!(buffer_to_stock(fd, &stock, &bytes_read)))
 			return (error_handling(&stock));
 		if(bytes_read == 0)
-			return(file_end(line, &stock));
+			return (file_end(line, &stock));
 	}
 	str = ft_strchr(stock, '\n');
 	*line = ft_strsub(stock, 0, str - stock);
 	cut_stock(&stock, str);
-	return(1);
+	return (1);
 }
